@@ -10,8 +10,7 @@
 
         private function __construct(){
             try {
-                self::$con = new PDO("mysql:host=localhost;port=3306;dbname=login_course" , 'root' , 'root');
-                self::$con->setAttribute(PDO::ATTR_ERRMODE , PDO::ERRMODE_EXCEPTION);
+                self::$con = new PDO( 'mysql:charset=utf8mb4;host=localhost;port=3306;dbname=login_course', 'root', 'root' );                self::$con->setAttribute(PDO::ATTR_ERRMODE , PDO::ERRMODE_EXCEPTION);
                 self::$con->setAttribute(PDO::ATTR_CASE , false);
                 // echo 'db connected';
             } catch ( PDOException $e ) {
@@ -24,7 +23,6 @@
             if(!self::$con){
                 new DB();
             }
-
             return self::$con;
         }
     }
