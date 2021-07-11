@@ -8,6 +8,27 @@ const handleError = (errors) => {
 
 const clearErrors = () => document.querySelector('.js-errors').innerHTML = '';
 
+const fetchAPI = async ({url , method , headers = {} , body = {}}) => {
+    // console.log(url , method)
+    try {
+        if(method?.toLowerCase() !== 'get'){
+            const response = await fetch( url , { method , headers , body});
+            const data = await response.json();
+            return [ data , null];
+        }
+
+        if(method?.toLowerCase() === 'get'){
+            const response = await fetch(url);
+            const data = await response.json();
+            return [ data , null];
+        }
+
+    } catch (error) {
+        console.log(error)
+        return [ null , error?.message]
+    }
+}
+
 const handleSubmit = async event => {
     event.preventDefault();
     try {
@@ -20,7 +41,23 @@ const handleSubmit = async event => {
         //!HANDLE USER
         const user = new User(email , password);
         await user.isValid();
-        
+
+        const [ data , error ] = await fetchAPI({
+            url : '/login-system/api/register.php',
+            method : 'POST',
+        });
+
+        if(data){
+            console.log(data)
+        }
+
+        if(error){
+            console.log(error)
+        }
+
+
+        // const [] = await fetchAPI()
+
     } catch (error) {
         console.log(error)
         if(error?.errors){
